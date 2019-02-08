@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+    <link href="/styles/main.css" rel="stylesheet">
+    <script src="/classes/cart.js"></script>
+
+</head>
+
+<body>
+    <div id="wrapper">
+
+    <header class="clearfix">
+         <img src="billeder/logo.png" alt="kaffebil">
+         <h1>Kitty CoffeeHouse</h1>
+         </header>
+
+            <main>
+
+            
+
+                
+                <%- content %>
+            </main>
+
+              <aside>
+                <h3>
+                    Indkøbskurv
+                </h3>
+                <div id="kurv">
+
+                    <div id="kurv_header" class="green clearfix">
+                        <h4>Produkt</h4>
+                        <h4>Pris</h4>
+                    </div>
+                    <table id="mini_kurv">
+
+                        <tbody>
+                            <tr class="tr_content">
+                                <td>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    <div class="green clearfix">
+                        <a class="kurv_knap" href="/afslut">Til kassen</a>
+                    </div>
+                </div>
+
+                <% if(session.bruger_id == undefined){ %>
+                <div id="login">
+
+                    <h3>
+                        Kunde login
+                    </h3>
+                    <form id="login_form" method="post" class="form-inline" action="/login">
+                        <div class="form-group">
+
+                            <input type="text" name="email" class="form-control" id="email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+
+                            <input type="password" name="password" class="form-control" id="password" placeholder="Kodeord">
+                        </div>
+                        <div class="form-group">
+                            <button>Login</button>
+                        </div>
+                    </form>
+                    <a href="/opret">Opret Kunde</a>
+                </div>
+
+                <%  }else{%>
+                <div id="admin_nav">
+                    <h3>Admin paneler</h3>
+                    <ul>
+                        <a href="/admin/produkter">
+                            <li>
+                                admin produkt
+                            </li>
+                        </a>
+                        <a href="/admin/kategorier">
+                            <li>
+                                admin kategori
+                            </li>
+                        </a>
+                        <a href="/admin/brugere">
+                            <li>
+                                admin brugere
+                            </li>
+                        </a>
+                    </ul>
+                    <a id="logout" href="/logout" onclick="return confirm('er du sikker på du vil logge ud?')">Log ud</a>
+                </div>
+
+
+                <% }%>
+                <span>
+                    <%= message %>
+            </aside>
+
+        <footer>
+       
+        </footer>
+    </div>
+
+    <script>
+        if (document.querySelector('#login_form button' != undefined)) {
+
+            document.querySelector('#login_form button').addEventListener('click', event => {
+                event.preventDefault();
+                document.querySelector('#login_form').submit();
+            });
+        }
+
+
+
+
+        function updateMiniCart() {
+            let minicart = document.querySelector('#mini_kurv tbody')
+            while (minicart.hasChildNodes()) {
+                minicart.removeChild(minicart.firstChild)
+            }
+            let cart = Cart.GrabCart();
+            cart.forEach(produkt => {
+                let amount = document.createElement('td');
+                amount.textContent = produkt.antal;
+
+                let name = document.createElement('td');
+                name.textContent = produkt.navn;
+
+                let total = document.createElement('td');
+                total.textContent = (produkt.pris * produkt.antal).toFixed(2);
+
+                let row = document.createElement('tr');
+
+                row.appendChild(amount);
+                row.appendChild(name);
+
+                row.appendChild(total);
+
+                minicart.appendChild(row)
+            });
+
+            if (cart.length > 0) {
+                let row = document.createElement('tr');
+                let total = document.createElement('td');
+                total.textContent = Cart.Total.toFixed(2);
+                row.appendChild(total);
+                minicart.appendChild(row)
+            }
+        }
+        updateMiniCart();
+    </script>
+</body>
+
+</html>

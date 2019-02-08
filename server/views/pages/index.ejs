@@ -1,0 +1,74 @@
+<% extend('../partials/template')%>
+
+<h2>KittyCoffees</h2>
+<% if(kaffe.length > 0){ %>
+
+<table class="butikken clearfix">
+<thead>
+</thead>
+<tbody>
+<% (kaffe || []).forEach(element=>{ %>
+
+
+
+<tr data-id="<%= element.kaffe_id %>" data-name="<%= element.kaffe_navn%>" data-price="<%= element.kaffe_pris%>">
+
+    <td> <img src="/billeder/<%= element.kaffe_billede %>"></td>
+    <td class="produkt_stk" >
+    <input type="number" name="buy" value="0">
+    </td>
+    
+
+    <td class="kaffe_navn" >
+    <%= element.kaffe_navn %>
+    </td>
+
+    <td class="kaffe_pris" >
+    <%= element.kaffe_pris %>
+    </td>
+
+    <td class="kaffe_information">
+<a href="/kaffe_detalje/<%= element.kaffe_id %>" >Mere info...</a>
+    </td>
+
+
+</tr>
+
+
+<% }) %>
+</tbody>
+<% } %>
+
+</table>
+<button class="buy">Tilføj til kurv</button>
+
+<script>
+document.querySelector('.buy').addEventListener('click', event=>{
+    let nyt_indhold = document.querySelectorAll('.butikken tbody tr');
+   
+
+    nyt_indhold.forEach(row=>{
+        let id = row.dataset['id'];
+        
+        let antal = row.childNodes[1].childNodes[1].value;
+        
+        let pris = row.dataset['price']
+        
+        let navn = row.dataset['name']
+        
+        console.log(row)
+
+        if (parseInt(antal) != 0){
+            Cart.PutInCart(id, navn, pris, antal)
+            console.log(id, navn, pris, antal)
+        }
+    })
+    updateMiniCart();
+})
+
+</script>
+
+
+
+
+

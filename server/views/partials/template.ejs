@@ -19,22 +19,22 @@
          <h1>Kitty CoffeeHouse</h1>
          </header>
 
-            <main>
+        
 
-            
-
-                
+            <main class="clearfix">
+         <div id="content">
                 <%- content %>
-            </main>
+                 </div>
+     
 
-              <aside>
+              <aside class="clearfix">
                 <h3>
                     Indkøbskurv
                 </h3>
                 <div id="kurv">
 
                     <div id="kurv_header" class="green clearfix">
-                        <h4>Produkt</h4>
+                        <h4>Kaffe</h4>
                         <h4>Pris</h4>
                     </div>
                     <table id="mini_kurv">
@@ -49,7 +49,7 @@
                     </table>
 
 
-                    <div class="green clearfix">
+                    <div class="clearfix">
                         <a class="kurv_knap" href="/afslut">Til kassen</a>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                 <div id="login">
 
                     <h3>
-                        Kunde login
+                        Login
                     </h3>
                     <form id="login_form" method="post" class="form-inline" action="/login">
                         <div class="form-group">
@@ -69,11 +69,11 @@
 
                             <input type="password" name="password" class="form-control" id="password" placeholder="Kodeord">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group clearfix">
                             <button>Login</button>
                         </div>
                     </form>
-                    <a href="/opret">Opret Kunde</a>
+                   
                 </div>
 
                 <%  }else{%>
@@ -104,6 +104,8 @@
                 <span>
                     <%= message %>
             </aside>
+
+                 </main> 
 
         <footer>
        

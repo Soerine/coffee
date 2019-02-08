@@ -1,10 +1,17 @@
 <% extend('../partials/template')%>
 
-<h2>KittyCoffees</h2>
+
 <% if(kaffe.length > 0){ %>
 
 <table class="butikken clearfix">
 <thead>
+<tr>
+<th>KittyKaffe</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
 </thead>
 <tbody>
 <% (kaffe || []).forEach(element=>{ %>
@@ -24,7 +31,7 @@
     </td>
 
     <td class="kaffe_pris" >
-    <%= element.kaffe_pris %>
+    <%= element.kaffe_pris %>,-
     </td>
 
     <td class="kaffe_information">

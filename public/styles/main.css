@@ -4,17 +4,42 @@
     margin:0 auto;
 }
 
+
 .clearfix::after {
     content: "";
     clear: both;
     display: table;
   }
 
+  body{
+      background-color:rgb(243, 179, 126);
+
+  }
+
+  a{
+      color:black;
+      text-decoration: none;
+      background-color: rgba(243, 164, 178, 0.884);
+box-shadow: 1px 4px 8px 1px rgba(0, 0, 0, 0.144);
+      border-radius: 1%;
+      padding: 3px;
+  }
+
+  a:hover{
+    
+    background-color: rgba(247, 134, 155, 0.733);
+    box-shadow: 1px 4px 8px 1px rgba(0, 0, 0, 0.144);
+    
+    }
+
   header{
-    background-color:pink;
     padding-left:9%;
     padding-top:2%;
     margin-bottom:5%;
+    background-color: rgba(255, 200, 210, 0.884);
+    box-shadow: 1px 4px 8px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 1%;
+
   }
 header img{
     width:10%;
@@ -31,15 +56,22 @@ header h1{
     
 }
 
+main{
+    background-color: rgba(255, 200, 210, 0.884);
+    max-width: 960px;
+    box-shadow: 1px 4px 8px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 1%;
+    font-size: 22px;
+    padding: 10px;
+}
+
 main img{
     width:50%;
     height:auto;
-    display: block;
-    margin:0 auto;
 
 }
 
-main{
+#content{
     font-family: 'Amatic SC', cursive;
     font-size:1.5rem;
     letter-spacing: 3px;
@@ -57,24 +89,45 @@ aside{
     letter-spacing: 3px;
 }
 
-main input{
+#content input{
     width:25px;
     height:25px;
     text-align: center;
 
 }
 
-main table{
+#content th{
+    text-align: left;
+    font-size: 2rem;
+    letter-spacing: 7px;
+}
+
+#content table{
     /* background-color: pink; */
     float:left;
+    width:100%;
+    padding:5%;
    
 
 }
 
-main button{
+button{
     padding:1%;
     font-family: 'Amatic SC', cursive;
     font-size:1.5rem;
-display:block;
-margin:0 auto;
+float:right;
+margin-right:6%;
+margin-bottom:2%;
+background-color: rgba(243, 164, 178, 0.884);
+box-shadow: 1px 4px 8px 1px rgba(0, 0, 0, 0.144);
+border-radius: 2% !important;
+border: 0px solid;
+cursor: pointer;
+}
+
+button:hover{
+    
+background-color: rgba(247, 134, 155, 0.733);
+box-shadow: 1px 4px 8px 1px rgba(0, 0, 0, 0.144);
+
 }

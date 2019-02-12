@@ -1,0 +1,56 @@
+<% extend('../partials/template')%>
+<link href="/styles/kaffe_detalje.css" rel="stylesheet">
+
+<h2 data-name="<%= kaffe.kaffe_navn %>" data-price="<%= kaffe.kaffe_pris %>" data-id="<%= kaffe.kaffe_id %>">
+    <%= kaffe.kaffe_navn %>
+</h2>
+
+<div class="detalje_billede">
+    <img src="/billeder/<%= element.kaffe_billede %>">
+</div>
+
+
+<div class="buyBox">
+    <p> Køb nu </p>
+    <p>Pris:
+        <%= produkt.produkt_pris %>
+    </p>
+
+    <div class="stk">
+        <label for="buy"> Antal: </label>
+        <input id="antal" type="number" name="buy" value="0">
+
+    </div>
+
+    <button class="buy">
+        Tilføj til kurv
+    </button>
+
+
+</div>
+
+<script>
+    document.querySelector('.buy').addEventListener('click', event => {
+        let row = document.querySelector('h2');
+
+
+
+        let id = row.dataset['id']
+
+        let antal = document.querySelector('#antal').value
+
+        let pris = row.dataset['price']
+
+        let navn = row.dataset['name']
+
+        console.log(row)
+
+        if (parseInt(antal) != 0) {
+            Cart.PutInCart(id, navn, pris, antal)
+            console.log(id, navn, pris, antal)
+        }
+
+        updateMiniCart();
+
+    })
+</script>

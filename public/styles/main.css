@@ -89,12 +89,30 @@ aside{
     letter-spacing: 3px;
 }
 
-#content input{
-    width:25px;
-    height:25px;
-    text-align: center;
-
+.kurv_knap{
+    float:right;
+    margin-right:6%;
+margin-bottom:2%;
 }
+
+
+.produkt_stk input{
+    background-color: rgba(243, 164, 178, 0.884);
+box-shadow: 1px 4px 8px 1px rgba(0, 0, 0, 0.144);
+border: 0 solid;
+text-align: center;  
+width:30px;
+    height:35px;
+    font-family: 'Amatic SC', cursive;
+    font-size:1.5rem;
+    margin-right:1.5%;
+}
+
+.produkt_stk input[type=number]::-webkit-inner-spin-button {
+    opacity: 0.5;
+  }
+
+
 
 #content th{
     text-align: left;
@@ -130,4 +148,16 @@ button:hover{
 background-color: rgba(247, 134, 155, 0.733);
 box-shadow: 1px 4px 8px 1px rgba(0, 0, 0, 0.144);
 
+}
+
+#login input{
+    width:93.5%;
+    height:30px;
+    background-color: rgba(243, 164, 178, 0.884);
+    box-shadow: 1px 4px 8px 1px rgba(0, 0, 0, 0.144);
+    border: 0px solid;
+    font-family: 'Amatic SC', cursive;
+    font-size:1.5rem;
+    color:black !important;
+    margin-bottom:3%;
 }

@@ -33,7 +33,22 @@ module.exports = {
                 })
             db.end();
         })
-    }
+    },
+
+    logo: () => {
+        return new Promise((resolve, reject) => {
+            let db = mysql.connect();
+            db.execute(`SELECT footer_id, footer_logo FROM footer`, [], (err, rows) => {
+                if (err) {
+                    reject(err.message)
+                } else {
+                    resolve(rows);
+                }
+            })
+            db.end();
+        })
+    },
+
 
 
 }

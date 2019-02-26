@@ -1,79 +1,87 @@
 <% extend('../partials/template')%>
 
-
-<% if(kaffe.length > 0){ %>
-
-<table class="butikken clearfix">
+<div id="content clearfix">
+<table class="butikken">
 <thead>
 <tr>
-<th>KittyKaffe</th>
-<th></th>
+<th>KittyCoffee</th>
 <th></th>
 <th></th>
 <th></th>
 </tr>
 </thead>
 <tbody>
-<% (kaffe || []).forEach(element=>{ %>
 
+<% sidens_kaffe.forEach(kaffe =>{ %>
 
+<tr>
+    <td><img src="/billeder/<%= kaffe.kaffe_billede %>"></td>
 
-<tr data-id="<%= element.kaffe_id %>" data-name="<%= element.kaffe_navn%>" data-price="<%= element.kaffe_pris%>">
-
-    <td> <img src="/billeder/<%= element.kaffe_billede %>"></td>
-    <td class="produkt_stk" >
-    <input type="number" name="buy" value="0">
+   <td class="kaffe_id" data-id="<%= kaffe.kaffe_id %>">
+    <%= kaffe.kaffe_id %>
     </td>
-    
-
-    <td class="kaffe_navn" >
-    <%= element.kaffe_navn %>
+       
+    <td class="kaffe_navn" data-navn="<%= kaffe.kaffe_navn %>">
+    <%= kaffe.kaffe_navn %>
     </td>
 
-    <td class="kaffe_pris" >
-    <%= element.kaffe_pris %>,-
+    <td class="kaffe_pris" data-pris="<%= kaffe.kaffe_pris %>">
+    <%= kaffe.kaffe_pris %>
     </td>
 
-    <td class="kaffe_information">
-<a href="/kaffe_detalje/<%= element.kaffe_id %>" >Mere info...</a>
-    </td>
 
+
+ <td class="produkt_stk" >
+    <input type="number" name="køb" value="1">
+    <button class="buy">Tilføj</button>
+    </td>
 
 </tr>
 
 
-<% }) %>
+<% }); %>
 </tbody>
-<% } %>
 
 </table>
-<button class="buy">Tilføj til kurv</button>
 
+
+<div>
+Side:
+<% for(let i = 1; i <= Math.ceil(antal_kaffer / kaffe_pr_side); i++){%> 
+<a href="?side=<%= i %>" class="<%= (side == i ? 'active' : '') %>">
+<%= i %></a>
+<% } %>
+</div>
+
+</div>
 <script>
-document.querySelector('.buy').addEventListener('click', event=>{
-    let nyt_indhold = document.querySelectorAll('.butikken tbody tr');
-   
+document.querySelectorAll('.buy').forEach(button =>{
+    button.addEventListener('click', (event) =>{
+        let row = event.target.parentNode.parentNode;
 
-    nyt_indhold.forEach(row=>{
-        let id = row.dataset['id'];
-        
-        let antal = row.childNodes[1].childNodes[1].value;
-        
-        let pris = row.dataset['price']
-        
-        let navn = row.dataset['name']
-        
-        console.log(row)
+        console.log(row);
 
-        if (parseInt(antal) != 0){
-            Cart.PutInCart(id, navn, pris, antal)
-            console.log(id, navn, pris, antal)
-        }
-    })
-    updateMiniCart();
-})
+        let id = row.querySelector('.kaffe_id').dataset['id'];
+        let navn = row.querySelector('.kaffe_navn').dataset['navn'];
+        let pris = row.querySelector('.kaffe_pris').dataset['pris'];
+        let antal = row.querySelector('.produkt_stk').childNodes[1].value;
+
+        Kurv.PutIKurv(id, navn, pris, antal);
+
+        row.querySelector('.produkt_stk').childNodes[1].value = 1;
+
+        opdaterMiniKurv();
+    });
+});
 
 </script>
+
+
+
+
+
+
+
 
 
 

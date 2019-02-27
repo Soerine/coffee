@@ -17,10 +17,16 @@
 <tr>
     <td><img src="/billeder/<%= kaffe.kaffe_billede %>"></td>
 
-   <td class="kaffe_id" data-id="<%= kaffe.kaffe_id %>">
+<td>
+    <% kaffe.farver.forEach(farve =>{ %>
+    <span> <%= farve.farve_navn %></span>
+    <% }); %>
+  </td>    
+
+  <td class="kaffe_id" data-id="<%= kaffe.kaffe_id %>">
     <%= kaffe.kaffe_id %>
-    </td>
-       
+    </td> 
+
     <td class="kaffe_navn" data-navn="<%= kaffe.kaffe_navn %>">
     <%= kaffe.kaffe_navn %>
     </td>

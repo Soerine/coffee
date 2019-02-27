@@ -28,10 +28,23 @@ module.exports = (app) => {
             //Hent elementer(kattekaffer) der skal vises på den nuværende side
             let kaffe = [];
             let logo = [];
+            let kaffe_med_farve = [];
 
             await forside_service.hent_offset(offset, pr_side)
                 .then(result => kaffe = result)
                 .catch(error => console.log(error));
+
+            kaffe.forEach((element, index, arr) => {
+                (async () => {
+                    await forside_service.hent_kop_farver(element.kaffe_id)
+                        .then(result => {
+                            arr[index].farver = result
+                            console.log(element);
+                        })
+                        .catch(error => console.log(error));
+                })();
+            })
+
 
             await forside_service.logo()
                 .then(result => {
@@ -57,6 +70,8 @@ module.exports = (app) => {
 
         })();
     }),
+
+
 
         app.get('/kaffe_detalje/:kaffe_id', (req, res) => {
             (async () => {

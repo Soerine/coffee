@@ -27,6 +27,7 @@ app.use(bodyParser.urlencoded({
 
 
 require('./routes/forside.js')(app)
+require('./routes/admin.js')(app)
 
 app.use(express.static('public'));
 

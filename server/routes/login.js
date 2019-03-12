@@ -1,126 +1,62 @@
-const login_service = require('../services/login_service.js')
-const forside_service = require('../services/forside_service.js')
-const bcrypt = require('bcrypt');
+const login_service = require('../services/login_service.js');
 
-function renderStuff(req, res, email, error = '') {
-    (async () => {
-        let trending = [];
-        let reklamer = []
-
-        await forside_service.trending()
-            .then(result => {
-                trending = result;
-                console.log(result)
-            }).catch(err => {
-                console.log(err)
-            })
-        await forside_service.reklamer()
-            .then(result => {
-                reklamer = result
-            }).catch(err => {
-                console.log(err)
-            })
-
-
-        res.render('pages/index', {
-            "trending": trending,
-            "side": "Kassen",
-            "reklamer": reklamer,
-            "message": error,
-            "email": email,
-            "session": req.session
-
-
-        })
-
-    })();
-}
 
 module.exports = (app) => {
-
+    // Login siden
+    app.get('/login', (req, res) => {
+        res.render('pages/login', {
+            "email": "",
+            "besked": "",
+            "page": "login",
+            "session": req.session
+        });
+    });
 
     app.post('/login', (req, res) => {
-        let formData = true;
-
-        if (req.body.email == undefined || req.body.email == '') {
-            formData = false;
-
-        }
-
-
-        if (req.body.password == undefined || req.body.password == '') {
-            formData = false
+        console.log(req.body.email);
+        //validering
+        let email = req.body.email;
+        if (email == undefined) {
+            email = '';
 
         }
+        let kodeord = req.body.kodeord;
+        if (kodeord == undefined) {
+            kodeord = '';
 
-        if (formData) {
-            bruger_service.login_hash(req.body.email)
-                .then(user => {
-
-                    if (bcrypt.compareSync(req.body.password, user.bruger_password)) {
-                        console.log('success')
-                        req.session.cookie.expires = false;
-                        // gem de nødvendige variabler i vores session variabel.
-                        req.session.bruger_id = user.bruger_id;
-                        req.session.kunde_id = user.kunde_id;
-                        req.session.bruger_rolle_niveau = user.bruger_rolle_niveau
-
-
-                        res.redirect('/');
-                    } else {
-                        renderStuff(req, res, req.body.email, "Forkert brugernavn eller kodeord")
-                        console.log('FAIL')
-                    } // true
-                    // sammenligner kodeord fra formularen, men hashet_kodeord fra database
-
-                }).catch(err => {
-                    renderStuff(req, res, req.body.email, err)
-                })
+        }
+        if (email == '' && kodeord == '') {
+            res.sendStatus(400);
         } else {
-            renderStuff(req, res, '', 'Udfyld venligst brugernavn eller kodeord')
-        }
-    }),
+            console.log(email, kodeord);
+            login_service.login(req.body.email, req.body.kodeord)
+                //Det er kun når vi har den ene bruger at vi kan logge ind
+                .then(result => {
+                    // gem de nødvendige variabler i vores session variabel.
+                    req.session.login_id = result.login_id;
 
-        app.get('/logout', (req, res) => {
-            // slet de gemte session variabler
-            delete req.session.bruger_id
-            delete req.session.kunde_id
-            delete req.session.bruger_rolle_niveau
+                    console.log(req.session.login_id);
 
-            res.redirect('/');
-        }),
-
-
-        app.get('/admin/brugere', (req, res) => {
-            if (req.session.bruger_rolle_niveau == undefined) {
-                res.redirect('/');
-            }
-            if (req.session.bruger_rolle_niveau < 100) {
-                res.redirect('/');
-            }
-            (async () => {
-
-                let content = [];
-
-                await bruger_service.tag_brugere()
-                    .then(result => {
-                        content = result;
-                        console.log(content)
-                    }).catch(err => {
-                        console.log(err)
-                    })
-
-
-                res.render('pages/brugere_admin', {
-
-                    "side": "Brugere",
-                    "message": '',
-                    "session": req.session,
-                    "content": content
+                    res.redirect('/admin');
                 })
+                .catch(err => {
+                    // login fejlede,
+                    console.log(err);
+                    res.render('pages/login', {
+                        "page": "login",
+                        "email": req.body.email,
+                        "besked": err,
+                        "session": req.session
+                    });
+                })
+        }
+    });
 
-            })();
-        })
-
+    app.get('/logout', (req, res) => {
+        req.session.destroy((err) => {
+            if (err) { console.log(err); }
+            res.redirect('/login');
+        });
+    });
 
 }

@@ -24,7 +24,11 @@
     "express-ejs-extend": "0.0.1",
     "express-fileupload": "^1.1.1-alpha.1",
     "express-session": "^1.15.6",
+    "jframes": "^1.0.0",
+    "mariadb": "^2.0.3",
     "morgan": "^1.9.1",
-    "mysql2": "^1.6.4"
+    "mysql2": "^1.6.4",
+    "nigiri": "^0.2.2",
+    "react-recollect": "^3.1.2"
   }
 }

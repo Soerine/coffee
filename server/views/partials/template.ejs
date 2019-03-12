@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="/styles/main.css" rel="stylesheet">
     <script src="/scripts/kurv.js"></script>
 
@@ -71,10 +72,12 @@
             </div>
 
 
-            <aside class="clearfix">
-                <h3>
-                    Indkøbskurv
-                </h3>
+            <aside class="clearfix">      
+            <div class="login_knap">
+                <a href="/login"><i class="fa fa-sign-in"></i></a>
+            </div>
+
+                <h3 class="kurv_overskrift">Indkøbskurv </h3>
                 <div class="kurv_section">
 
                     <table id="minikurv"></table>
@@ -83,56 +86,7 @@
                     <a href="/kurv" class="btn btn-xs btn-succes">Køb</a>
                 </div>
 
-                <% if(session.bruger_id == undefined){ %>
-                <div id="login">
-
-                    <h3>
-                        Login
-                    </h3>
-                    <form id="login_form" method="post" class="form-inline" action="/login">
-                        <div class="form-group">
-
-                            <input type="text" name="email" class="form-control" id="email" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-
-                            <input type="password" name="password" class="form-control" id="password" placeholder="Kodeord">
-                        </div>
-                        <div class="form-group clearfix">
-                            <button>Login</button>
-                        </div>
-                    </form>
-
-                </div>
-
-                <%  }else{%>
-                <div id="admin_nav">
-                    <h3>Admin paneler</h3>
-                    <ul>
-                        <a href="/admin/produkter">
-                            <li>
-                                admin produkt
-                            </li>
-                        </a>
-                        <a href="/admin/kategorier">
-                            <li>
-                                admin kategori
-                            </li>
-                        </a>
-                        <a href="/admin/brugere">
-                            <li>
-                                admin brugere
-                            </li>
-                        </a>
-                    </ul>
-                    <a id="logout" href="/logout" onclick="return confirm('er du sikker på du vil logge ud?')">Log ud</a>
-                </div>
-
-
-                <% }%>
-                <span>
-                    <%= message %>
-                </span>
+          
             </aside>
 
         </main>
@@ -159,6 +113,7 @@
             })
 
             opdaterMiniKurv();
+
         </script>
 
     </div>

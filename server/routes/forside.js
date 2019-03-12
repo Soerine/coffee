@@ -34,22 +34,13 @@ module.exports = (app) => {
                 .then(result => kaffe = result)
                 .catch(error => console.log(error));
 
-            kaffe.forEach((element, index, arr) => {
-                (async () => {
-                    await forside_service.hent_kop_farver(element.kaffe_id)
-                        .then(result => {
-                            arr[index].farver = result
-                            console.log(element);
-                        })
-                        .catch(error => console.log(error));
-                })();
-            })
+            console.log(kaffe);
 
 
             await forside_service.logo()
                 .then(result => {
                     logo = result;
-                    console.log(result)
+
                 }).catch(err => {
                     console.log(err)
                 })

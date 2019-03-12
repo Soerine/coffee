@@ -1,0 +1,19 @@
+<% extend('../partials/login_template') %>
+
+
+<form id="login_form" method="post" class="form-inline">
+   <div class="form-group">
+      <label for="email">Email:</label>
+      <!-- <%= email %> sender den med frem og tilbage -->
+      <input type="text" name="email" value="<%= email %>" class="form-control" id="email">
+   </div>
+   <div class="form-group">
+      <label for="kodeord">Kodeord:</label>
+      <input type="password" name="kodeord" class="form-control" id="kodeord">
+   </div>
+   <div class="form-group">
+      <button class="btn btn-success btn-sm">Login</button>
+      <span id="fejlbesked"><%= besked %></span>
+   </div>
+</form>
+

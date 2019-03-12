@@ -1,6 +1,22 @@
 const mysql = require('../config/mysql.js');
 const path = require('path');
 
+function hent_kop_farver(kaffe_id) {
+    return new Promise((resolve, reject) => {
+        let db = mysql.connect();
+        db.execute(`SELECT farve_navn, farve_id 
+        FROM kaffe_kop_farve
+        INNER JOIN kop_farve ON farve_id = fk_farve_id
+        WHERE fk_kaffe_id =?`, [kaffe_id], (err, rows) => {
+                if (err) {
+                    reject(err.message)
+                } else {
+                    resolve(rows);
+                }
+            })
+        db.end();
+    })
+}
 
 module.exports = {
     kaffe: () => {
@@ -39,12 +55,18 @@ module.exports = {
         return new Promise((resolve, reject) => {
             let db = mysql.connect();
             // hvor mange skal den springe over / hvor mange skal den tage (`?, ?`)
-            db.execute(`SELECT kaffe_id, kaffe_navn, kaffe_pris, kaffe_billede FROM kaffe
-             ORDER BY kaffe_navn ASC 
-             LIMIT ?, ?`, [offset, limit], (err, rows) => {
+            db.execute(`SELECT k.kaffe_navn, kaffe_pris, kaffe_billede, kaffe_id, 
+            GROUP_CONCAT(f.farve_navn ORDER BY f.farve_navn SEPARATOR ', ' ) AS farver
+            FROM kaffe AS k, kaffe_kop_farve kkf, kop_farve AS f 
+            WHERE kkf.fk_kaffe_id = k.kaffe_id AND kkf.fk_farve_id = f.farve_id 
+            GROUP BY kkf.fk_kaffe_id ORDER BY k.kaffe_navn
+            LIMIT ?, ?
+            `, [offset, limit], (err, rows) => {
                     if (err) {
                         reject(err.message);
                     } else {
+
+                        console.log(rows);
                         resolve(rows);
                     }
                 });
@@ -101,22 +123,7 @@ module.exports = {
         })
     },
 
-    hent_kop_farver: (kaffe_id) => {
-        return new Promise((resolve, reject) => {
-            let db = mysql.connect();
-            db.execute(`SELECT farve_navn, farve_id 
-            FROM kaffe_kop_farve
-            INNER JOIN kop_farve ON farve_id = fk_farve_id
-            WHERE fk_kaffe_id =?`, [kaffe_id], (err, rows) => {
-                    if (err) {
-                        reject(err.message)
-                    } else {
-                        resolve(rows);
-                    }
-                })
-            db.end();
-        })
-    },
+    hent_kop_farver: hent_kop_farver,
 
     opret_kop_farve: (values) => {
         return new Promise((resolve, reject) => {

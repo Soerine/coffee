@@ -4,6 +4,11 @@
     margin:0 auto;
 }
 
+.login_knap{
+    float:right;
+    margin:4%;
+}
+
 .footer_logo img{
 max-width:20%;
 height:auto;

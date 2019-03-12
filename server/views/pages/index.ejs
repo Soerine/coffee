@@ -18,8 +18,14 @@
     <td><img src="/billeder/<%= kaffe.kaffe_billede %>"></td>
 
 <td>
-    <% kaffe.farver.forEach(farve =>{ %>
-    <span><img src="/billeder/<%= farve.farve_navn %>"></span>
+    <% 
+    
+    let farver = kaffe.farver.split(',');
+    
+    (farver||[]).forEach(farve =>{
+        
+        farve=farve.replace(' ', '') %>
+    <span><img src="/billeder/<%= farve %>"></span>
     <% }); %>
   </td>    
 
